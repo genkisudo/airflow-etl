@@ -1,55 +1,81 @@
-# Airflow ETL Project
+# Adzuna Job ETL Pipeline
 
-## About project
+A production-ready data pipeline that extracts job listings from the Adzuna API, transforms them with PySpark, and loads them into Databricks Delta tables—fully orchestrated with Apache Airflow and containerized with Docker.
 
-This project showcases an ETL pipeline built using Apache Airflow to retrieve job listing data from the Adzuna API, transform it, and load it into a Databricks delta table. The entire setup runs in Docker, ensuring a consistent and reproducible environment for extracting, transforming, and loading data.
+## What It Does
 
-For more details, check https://medium.com/@kazarmax/hands-on-project-building-a-simple-api-to-delta-pipeline-with-airflow-and-databricks-connect-028881ba3585
+- **Extracts** job listings from Adzuna API (paginated, error-tolerant)
+- **Transforms** raw JSON into structured, deduplicated Spark DataFrames
+- **Loads** data into Databricks Delta using idempotent MERGE logic (no duplicates on re-runs)
+- **Schedules** hourly runs with Apache Airflow and monitors via logs
 
-## Prerequisites
+**Tech Stack:** Apache Airflow 3.0.3 · PySpark · Databricks Connect · PostgreSQL · Redis · Docker
 
-To run this project, you need the following:
- - Adzuna API account at `https://developer.adzuna.com/` with `Application ID` and `Application Key`
- - Databricks Free Edition account `https://www.databricks.com/learn/free-edition`
- - Docker and VS Code installed
-
-
-## How to Run the Pipeline
-
-1. Clone the project github repo
-```
-git clone https://github.com/kazarmax/airflow_databricks_etl.git
-```
-
-2. Open the project folder in VS Code
-
-3. Run Airflow services in docker
+## Architecture
 
 ```
-docker compose up -d
+Adzuna API → Spark DataFrame → Databricks Delta Table
+                ↑
+        Orchestrated by Airflow
+        (PostgreSQL metadata, Redis queue)
 ```
 
-4. Open Airflow UI at `http://localhost:8080/` (login/password: airflow/airflow)
+**Key Features:**
+- **Idempotent MERGE:** Null-safe comparisons ensure updates only on actual changes
+- **Serverless Compute:** Databricks serverless SQL warehouses (no cluster cost when idle)
+- **Error Resilience:** API timeouts and failures log warnings but don't fail the DAG
+- **No Backfill:** `catchup=False` prevents replaying old intervals
 
-5. In Airflow UI, add and fill in variables `ADZUNA_APP_ID` and `ADZUNA_APP_KEY` using values from your Adzuna API account
+## Quick Start
 
-6. In your Databricks Free Edition account, create and save securely Personal Access Token (PAT)
-* Go to Settings → User Settings → Access Tokens
-* Click Generate New Token
-* Copy and save it securely
+### Prerequisites
+- [Adzuna API account](https://developer.adzuna.com/) (free, get Application ID & Key)
+- [Databricks Free Edition](https://www.databricks.com/learn/free-edition)
+- Docker Desktop (macOS/Windows/Linux)
 
-7. In Airflow UI, add a Connection to Databricks: 
-* Connection ID = `databricks_default`
-* Connection Type = `Databricks`
-* Host - take it from your Databricks Free Edition account URL, for example `https://abc123.cloud.databricks.com`
-* Password - use your Databricks token
+### Setup (5 min)
 
-8. Create catalog, schema and table in databricks unity catalog by running the following command in the terminal locally:
+1. **Clone & navigate:**
+   ```bash
+   git clone https://github.com/genkisudo/airflow-etl.git
+   cd airflow-etl
+   docker compose up -d
+   ```
+
+2. **Configure Airflow** (`http://localhost:8080` — login: airflow/airflow):
+   - Add Variables: `ADZUNA_APP_ID` and `ADZUNA_APP_KEY`
+   - Add Connection: ID=`databricks_default`, Type=Databricks, Host=your Databricks URL, Password=PAT token
+
+3. **Create Databricks catalog/schema/table:**
+   ```bash
+   docker compose exec -T airflow-scheduler python /opt/python/scripts/databricks_ddl.py
+   ```
+
+4. **Run the DAG:**
+   - Unpause `load_adzuna_jobs` in Airflow UI
+   - Triggers hourly or click play to test immediately
+
+5. **Verify:** Check `adzuna.prj.jobs` table in Databricks for job listing data
+
+## Project Structure
 
 ```
-docker compose exec -T airflow-scheduler python /opt/python/scripts/databricks_ddl.py
+airflow_databricks_etl/
+├── airflow/dags/etl.py           # DAG definition
+├── airflow/config/etl_config.py  # Centralized config (schedule, API params)
+├── scripts/src.py                # ETL logic (fetch, transform, merge)
+├── scripts/databricks_ddl.py     # Catalog/table bootstrap
+├── docker-compose.yaml           # Full stack (Airflow, Postgres, Redis)
+└── pyproject.toml                # Dependencies
 ```
 
-9. In Airflow UI, open and run the `adzuna_etl_dag` DAG
+## Learnings & Implementation Highlights
 
-10. Upon successful execution of the DAG, log in to Databricks and check if the table `adzuna.prj.jobs` exists and contains data.
+- **Pagination:** Robust error handling for flaky APIs (individual page failures don't break the pipeline)
+- **Data Quality:** Deduplication on ID + null-safe comparisons prevent unwanted updates
+- **Idempotency:** Re-runs are safe; MERGE logic only updates changed fields
+- **Efficiency:** Temp views avoid unnecessary data transfer between Spark and Delta
+
+---
+
+**Learning project from [Surfalytics](https://surfalytics.com/) Data Engineering Community.**
