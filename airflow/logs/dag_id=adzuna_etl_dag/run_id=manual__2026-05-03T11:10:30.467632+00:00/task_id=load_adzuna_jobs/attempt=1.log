@@ -1,0 +1,21 @@
+{"timestamp":"2026-05-03T11:11:02.621991","level":"info","event":"DAG bundles loaded: dags-folder","logger":"airflow.dag_processing.bundles.manager.DagBundlesManager"}
+{"timestamp":"2026-05-03T11:11:02.622228","level":"info","event":"Filling up the DagBag from /opt/airflow/dags/etl.py","logger":"airflow.models.dagbag.DagBag"}
+{"timestamp":"2026-05-03T11:11:03.247123","level":"info","event":"Connection Retrieved 'databricks_default'","logger":"airflow.hooks.base"}
+{"timestamp":"2026-05-03T11:11:03.247206","level":"info","event":"Using serverless compute","logger":"root"}
+{"timestamp":"2026-05-03T11:11:04.731962","level":"warning","event":"/home/airflow/.local/lib/python3.12/site-packages/airflow/models/variable.py:147: DeprecationWarning: Using Variable.get from `airflow.models` is deprecated.Please use `from airflow.sdk import Variable` instead\n  warnings.warn(\n","logger":"py.warnings"}
+{"timestamp":"2026-05-03T11:11:04.737621","level":"info","event":"Fetching number of available jobs","logger":"root"}
+{"timestamp":"2026-05-03T11:11:06.469605","level":"info","event":"Number of available records = 162","logger":"root"}
+{"timestamp":"2026-05-03T11:11:06.469858","level":"info","event":"Number of total pages = 4","logger":"root"}
+{"timestamp":"2026-05-03T11:11:06.469951","level":"info","event":"Processing page = 2 ...","logger":"root"}
+{"timestamp":"2026-05-03T11:11:07.470392","level":"info","event":"Processing page = 3 ...","logger":"root"}
+{"timestamp":"2026-05-03T11:11:08.349747","level":"info","event":"Processing page = 4 ...","logger":"root"}
+{"timestamp":"2026-05-03T11:11:08.828591","level":"info","event":"Number of parsed records = 162","logger":"root"}
+{"timestamp":"2026-05-03T11:11:09.201794","level":"info","event":"Finished fetching Adzuna jobs","logger":"root"}
+{"timestamp":"2026-05-03T11:11:10.292046","level":"info","event":"number of fetched records from Adzuna = 162","logger":"root"}
+{"timestamp":"2026-05-03T11:11:10.292911","level":"info","event":"Adzuna table fully qualified name: 'adzuna.prj.jobs'","logger":"root"}
+{"timestamp":"2026-05-03T11:11:10.293047","level":"info","event":"Merging fetched data into databricks delta table","logger":"root"}
+{"timestamp":"2026-05-03T11:11:19.076395","level":"info","event":"Number of records after merge: 162","logger":"root"}
+{"timestamp":"2026-05-03T11:11:19.076606","level":"info","event":"Closing spark session","logger":"root"}
+{"timestamp":"2026-05-03T11:11:19.284889","level":"warning","event":"/home/airflow/.local/lib/python3.12/site-packages/pyspark/sql/connect/client/reattach.py:255: UserWarning: ReleaseExecute failed with exception: <_InactiveRpcError of RPC that terminated with:\n\tstatus = StatusCode.INTERNAL\n\tdetails = \"[INVALID_HANDLE.SESSION_CLOSED] The handle c3f9386b-c1c1-4e1d-84f4-5344f23a4e1d is invalid. Session was closed. SQLSTATE: HY000\"\n\tdebug_error_string = \"UNKNOWN:Error received from peer  {created_time:\"2026-05-03T11:11:19.284310381+00:00\", grpc_status:13, grpc_message:\"[INVALID_HANDLE.SESSION_CLOSED] The handle c3f9386b-c1c1-4e1d-84f4-5344f23a4e1d is invalid. Session was closed. SQLSTATE: HY000\"}\"\n>.\n  warnings.warn(f\"ReleaseExecute failed with exception: {e}.\")\n","logger":"py.warnings"}
+{"timestamp":"2026-05-03T11:11:19.286093","level":"info","event":"Done","logger":"root"}
+{"timestamp":"2026-05-03T11:11:19.286647","level":"info","event":"Done. Returned value was: None","logger":"airflow.task.operators.airflow.providers.standard.decorators.python._PythonDecoratedOperator"}
