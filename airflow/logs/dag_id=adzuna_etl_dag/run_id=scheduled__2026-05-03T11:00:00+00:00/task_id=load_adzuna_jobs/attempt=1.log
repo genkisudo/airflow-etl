@@ -1,0 +1,20 @@
+{"timestamp":"2026-05-03T11:10:31.715050","level":"info","event":"DAG bundles loaded: dags-folder","logger":"airflow.dag_processing.bundles.manager.DagBundlesManager"}
+{"timestamp":"2026-05-03T11:10:31.715366","level":"info","event":"Filling up the DagBag from /opt/airflow/dags/etl.py","logger":"airflow.models.dagbag.DagBag"}
+{"timestamp":"2026-05-03T11:10:33.148372","level":"info","event":"Connection Retrieved 'databricks_default'","logger":"airflow.hooks.base"}
+{"timestamp":"2026-05-03T11:10:33.148435","level":"info","event":"Using serverless compute","logger":"root"}
+{"timestamp":"2026-05-03T11:10:34.727939","level":"warning","event":"/home/airflow/.local/lib/python3.12/site-packages/airflow/models/variable.py:147: DeprecationWarning: Using Variable.get from `airflow.models` is deprecated.Please use `from airflow.sdk import Variable` instead\n  warnings.warn(\n","logger":"py.warnings"}
+{"timestamp":"2026-05-03T11:10:34.733221","level":"info","event":"Fetching number of available jobs","logger":"root"}
+{"timestamp":"2026-05-03T11:10:37.891986","level":"info","event":"Number of available records = 162","logger":"root"}
+{"timestamp":"2026-05-03T11:10:37.892283","level":"info","event":"Number of total pages = 4","logger":"root"}
+{"timestamp":"2026-05-03T11:10:37.892402","level":"info","event":"Processing page = 2 ...","logger":"root"}
+{"timestamp":"2026-05-03T11:10:39.084940","level":"info","event":"Processing page = 3 ...","logger":"root"}
+{"timestamp":"2026-05-03T11:10:40.128534","level":"info","event":"Processing page = 4 ...","logger":"root"}
+{"timestamp":"2026-05-03T11:10:40.548570","level":"info","event":"Number of parsed records = 162","logger":"root"}
+{"timestamp":"2026-05-03T11:10:41.028398","level":"info","event":"Finished fetching Adzuna jobs","logger":"root"}
+{"timestamp":"2026-05-03T11:10:43.547663","level":"info","event":"number of fetched records from Adzuna = 162","logger":"root"}
+{"timestamp":"2026-05-03T11:10:43.547936","level":"info","event":"Adzuna table fully qualified name: 'adzuna.prj.jobs'","logger":"root"}
+{"timestamp":"2026-05-03T11:10:43.548041","level":"info","event":"Merging fetched data into databricks delta table","logger":"root"}
+{"timestamp":"2026-05-03T11:11:00.397604","level":"info","event":"Number of records after merge: 162","logger":"root"}
+{"timestamp":"2026-05-03T11:11:00.397719","level":"info","event":"Closing spark session","logger":"root"}
+{"timestamp":"2026-05-03T11:11:00.569476","level":"info","event":"Done","logger":"root"}
+{"timestamp":"2026-05-03T11:11:00.570484","level":"info","event":"Done. Returned value was: None","logger":"airflow.task.operators.airflow.providers.standard.decorators.python._PythonDecoratedOperator"}
