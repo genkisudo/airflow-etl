@@ -36,7 +36,7 @@ airflow_databricks_etl/
 2. **Transform** (in `fetch_adzuna_to_spark_df`):
    - Drop duplicates on `id`
    - Cast `id` to bigint, `created` to timestamp
-   - Add `elt_updated` timestamp column
+   - Add `etl_updated` timestamp column
 
 3. **Merge** (`merge_to_delta_table`): MERGE INTO Databricks Delta table with:
    - MATCHED: Update if any field changed (using null-safe comparison `<=>`)
@@ -109,6 +109,7 @@ docker compose exec -T airflow-scheduler python -c "from scripts.src import get_
 ## Key Implementation Details
 
 ### DAG (`airflow/dags/etl.py`)
+- DAG ID: `adzuna_etl_dag`
 - Single `@task` decorated function `load_adzuna_jobs()` that orchestrates the full ETL
 - Retrieves API credentials from Airflow Variables (ADZUNA_APP_ID, ADZUNA_APP_KEY)
 - Creates Spark session using `DatabricksHook`, uses serverless compute

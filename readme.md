@@ -52,7 +52,7 @@ Adzuna API → Spark DataFrame → Databricks Delta Table
    ```
 
 4. **Run the DAG:**
-   - Unpause `load_adzuna_jobs` in Airflow UI
+   - Unpause `adzuna_etl_dag` in Airflow UI
    - Triggers hourly or click play to test immediately
 
 5. **Verify:** Check `adzuna.prj.jobs` table in Databricks for job listing data
@@ -60,8 +60,8 @@ Adzuna API → Spark DataFrame → Databricks Delta Table
 ## Project Structure
 
 ```
-airflow_databricks_etl/
-├── airflow/dags/etl.py           # DAG definition
+airflow-etl/
+├── airflow/dags/etl.py           # DAG definition (adzuna_etl_dag)
 ├── airflow/config/etl_config.py  # Centralized config (schedule, API params)
 ├── scripts/src.py                # ETL logic (fetch, transform, merge)
 ├── scripts/databricks_ddl.py     # Catalog/table bootstrap
